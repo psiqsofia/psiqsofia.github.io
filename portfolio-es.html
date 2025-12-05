@@ -1,0 +1,208 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio Tecnológico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Questrial', sans-serif;
+      color: #333;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    video.background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    .portfolio-container {
+      background-color: rgba(255, 255, 255, 0.85);
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .project {
+      margin-bottom: 30px;
+    }
+
+    .badges {
+      margin: 10px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: #5eaa7d;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-right: 5px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    a {
+      color: #5eaa7d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Botón de idioma */
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #5eaa7d;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-family: 'Questrial', sans-serif;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo de video -->
+  <video class="background-video" autoplay muted loop>
+    <source src="images/tech.mp4" type="video/mp4">
+    Tu navegador no soporta video.
+  </video>
+
+  <!-- Selector de idioma -->
+  <a href="portfolio.html" class="lang-toggle">EN 🇬🇧</a>
+
+  <!-- Contenedor principal -->
+  <div class="portfolio-container">
+    <h1>Portafolio Tecnológico</h1>
+
+    <!-- Proyecto 1 -->
+    <div class="project">
+      <h2>Predicción de Marketing Bancario</h2>
+      <p>Proyecto de machine learning para predecir si un cliente aceptará la oferta de campaña de un banco, usando datos reales.</p>
+      <div class="badges">
+        <span class="badge">Python</span>
+        <span class="badge">Pandas</span>
+        <span class="badge">Scikit-learn</span>
+        <span class="badge">Matplotlib</span>
+        <span class="badge">Jupyter</span>
+      </div>
+      <details>
+        <summary>Ver más</summary>
+        <p><strong>Objetivo:</strong> Construir un modelo de clasificación para predecir la probabilidad de aceptación de una campaña telefónica.</p>
+        <p><strong>Preprocesamiento:</strong> Codificación de variables categóricas, normalización, eliminación de fuga de información (variable 'duration').</p>
+        <p><strong>Selección de modelo:</strong> Comparación de Random Forest con y sin 'duration'.</p>
+        <p><strong>Evaluación:</strong> El modelo sin 'duration' es más ético y realista, con F1 equilibrado.</p>
+        <p><strong>Insight:</strong> Menor exactitud, pero mayor aplicabilidad en la vida real.</p>
+        <p><a href="https://github.com/psiqsofia/bank-marketing" target="_blank">🔗 Ver en GitHub</a></p>
+      </details>
+    </div>
+
+   <!-- Proyecto 2 -->
+<div class="project">
+  <h2>Suicidio en Jóvenes Colombianos</h2>
+  <p>Análisis exploratorio y dashboard interactivo basado en datos de Medicina Legal, enfocado en patrones por edad, región, género y causa.</p>
+  
+  <div class="badges">
+    <span class="badge">Python</span>
+    <span class="badge">Pandas</span>
+    <span class="badge">Power BI</span>
+    <span class="badge">Seaborn</span>
+    <span class="badge">EDA</span>
+    <span class="badge">Matplotlib</span>
+  </div>
+
+  <details>
+    <summary>Ver más</summary>
+
+    <!-- Imagen del dashboard -->
+    <div style="margin-top: 1rem;">
+      <img src="images/dashboard_preview.jpg" alt="Vista del dashboard" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    </div>
+
+    <p><strong>Objetivo:</strong> Analizar tendencias de suicidio en jóvenes colombianos entre 2015–2023.</p>
+    <p><strong>Exploración:</strong> Filtros por departamento, edad, causa de muerte; visualización con barplots, heatmaps y paneles interactivos.</p>
+    <p><strong>Insight clave:</strong> Patrones fuertes por región y etapa de vida; Power BI permite filtrar dinámicamente sexo, edad y región.</p>
+    <p><a href="https://github.com/psiqsofia/suicidio_juvenil_colombia" target="_blank">🔗 Ver en GitHub</a></p>
+  </details>
+</div>
+
+    <!-- Proyecto 3 -->
+    <div class="project">
+      <h2>Predicción de Experiencias Místicas en Raves</h2>
+      <p>Modelo de red neuronal para predecir experiencias místicas en raves a partir de variables psicológicas y contextuales usando datos sintéticos.</p>
+      <div class="badges">
+        <span class="badge">Python</span>
+        <span class="badge">Keras</span>
+        <span class="badge">Neural Network</span>
+        <span class="badge">EDA</span>
+        <span class="badge">Visualización</span>
+      </div>
+      <details>
+        <summary>Ver más</summary>
+        <p><strong>Objetivo:</strong> Predecir si una persona tendrá una experiencia mística basándose en estados emocionales, espiritualidad y contexto.</p>
+        <p><strong>Modelo:</strong> Red neuronal de 50 épocas con precisión del 68%.</p>
+        <p><strong>Evaluación:</strong> Dificultad para predecir casos 'Sí' debido a desbalance.</p>
+        <p><strong>Insight:</strong> Estados eufóricos y conexión social son predictores fuertes.</p>
+        <p><a href="https://github.com/psiqsofia/rave_mystical_experience_prediction" target="_blank">🔗 Ver en GitHub</a></p>
+      </details>
+    </div>
+
+    <!-- Proyecto 4 -->
+<div class="project">
+  <h2>Modelo Predictivo de Atenciones Médicas – Boyacá</h2>
+  <p>Análisis descriptivo y predictivo de la demanda de servicios médicos en un hospital público, basado en el boletín municipal de salud.</p>
+
+  <div class="badges">
+    <span class="badge">Python</span>
+    <span class="badge">Pandas</span>
+    <span class="badge">Scikit-learn</span>
+    <span class="badge">Matplotlib</span>
+    <span class="badge">Seaborn</span>
+    <span class="badge">Machine Learning</span>
+  </div>
+
+  <details>
+    <summary>Ver más</summary>
+    <p><strong>Objetivo:</strong> Analizar y predecir patrones de demanda médica usando datos demográficos y de salud.</p>
+    <p><strong>Exploración:</strong> Segmentación por género, edad y grupos de enfermedad (cardiovascular, musculoesquelético, salud mental).</p>
+    <p><strong>Modelado:</strong> Comparación de Logistic Regression, Random Forest, Gradient Boosting, SVM, KNN y Naive Bayes.</p>
+    <p><strong>Insight clave:</strong> Mayor asistencia femenina; el sistema sigue siendo reactivo más que preventivo.</p>
+    <p><a href="https://github.com/psiqsofia/healthcare-demand-boyaca" target="_blank">🔗 Ver en GitHub</a></p>
+  </details>
+</div>
+
+    <a href="index.html" style="position: fixed; top: 20px; left: 20px; background-color: #5eaa7d; color: white; padding: 10px 16px; border-radius: 20px; text-decoration: none; font-family: 'Questrial', sans-serif; z-index: 1000;">
+      ⬅️ Volver
+    </a>
+  </div>
+
+</body>
+</html>
