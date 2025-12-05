@@ -197,38 +197,35 @@
     <summary>View more</summary>
     <p><em>Full project insights will be available soon.</em></p>
   </details>
-</div>
 </div> <!-- cierre de .portfolio-container -->
 
 <!-- Botón volver -->
 <a href="index.html" 
-   style="position: fixed; 
-          top: 20px; 
-          left: 20px; 
-          background-color: #5eaa7d; 
-          color: white; 
-          padding: 10px 16px; 
-          border-radius: 20px; 
-          text-decoration: none; 
-          font-family: 'Questrial', sans-serif; 
-          z-index: 1000;">
+   class="back-button">
   ⬅️ Go back
 </a>
 
 <!-- Botón ES -->
-<a href="portfolio-es.html"
-   style="position: fixed;
-          top: 20px;
-          right: 20px;
-          background-color: #5eaa7d;
-          color: white;
-          padding: 10px 16px;
-          border-radius: 20px;
-          text-decoration: none;
-          font-family: 'Questrial', sans-serif;
-          z-index: 1000;">
+<a href="portfolio-es.html" class="lang-toggle">
  Español 🇪🇸
 </a>
+
+<style>
+/* Botón volver */
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #5eaa7d;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-family: 'Questrial', sans-serif;
+  z-index: 1000;
+}
+
+/* Botón idioma */
 .lang-toggle {
   position: fixed;
   top: 20px;
@@ -259,7 +256,18 @@
     border-radius: 25px;
     font-size: 16px;
   }
+
+  .back-button {
+    bottom: 20px;
+    top: auto;
+    left: 20px;
+    padding: 12px 18px;
+    border-radius: 25px;
+    font-size: 16px;
+  }
 }
+</style>
 
 </body>
 </html>
+
