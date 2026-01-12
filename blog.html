@@ -279,17 +279,7 @@
 
   searchInput.addEventListener("input", e => renderList(e.target.value));
 
-  window.onload = () => {
-    renderList();
-
-    const params = new URLSearchParams(window.location.search);
-    const post = params.get("post");
-    if (post) {
-      const file = `${post}.html`;
-      const entry = entries.find(e => e.file === file);
-      const el = Array.from(document.querySelectorAll(".entry-title")).find(e => e.textContent === entry?.title);
-      if (entry) loadContent(entry, el, false);
-    }
+  
   };
    function cargarTexto(nombreArchivo, titulo) {
     fetch('blog/' + nombreArchivo)
@@ -312,6 +302,20 @@ function toggleSidebar() {
   const sidebar = document.querySelector('.sidebar');
   sidebar.classList.toggle('open');
 }
+  // Renderizar lista apenas el script cargue
+renderList();
+
+// Cargar post desde URL si existe
+const params = new URLSearchParams(window.location.search);
+const post = params.get("post");
+if (post) {
+  const file = `${post}.html`;
+  const entry = entries.find(e => e.file === file);
+  const el = Array.from(document.querySelectorAll(".entry-title"))
+    .find(e => e.textContent === entry?.title);
+  if (entry) loadContent(entry, el, false);
+}
+
 </script>
 
 </body>
