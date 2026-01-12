@@ -4,45 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jardín de Palabras</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-  
-<style>
-    body, html {
+
+  <style>
+    html, body {
       margin: 0;
       padding: 0;
-      font-family: 'Questrial', sans-serif;
       height: 100%;
-      overflow: hidden;
+      font-family: 'Questrial', sans-serif;
       font-size: 1.25rem;
+      overflow: hidden;
     }
 
-    video#bg-video {
+    body {
+      background: black;
+    }
+
+    #bg-gif {
       position: fixed;
-      top: 0; left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-    }
-       main {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 2rem 1rem;
-      gap: 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .card {
-      background-color: rgba(255, 255, 255, 0.8);
-      color: #333;
-      padding: 1rem;
-      border-radius: 12px;
-      width: 300px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+      z-index: -1;
     }
 
     .container {
@@ -53,23 +38,30 @@
 
     .sidebar {
       width: 280px;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255,255,255,0.3);
       padding: 1rem;
       overflow-y: auto;
       border-right: 2px solid #ccc;
     }
 
     .content {
-      flex-grow: 1;
-      max-width: 75%;
+      flex: 1;
       padding: 2rem 3rem;
       overflow-y: auto;
       color: white;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0,0,0,0.35);
     }
 
-    .search-box {
+    .top-button {
+      display: block;
       margin-bottom: 1rem;
+      padding: 0.5rem;
+      background: #ffffffcc;
+      color: #000;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
     }
 
     .search-box input {
@@ -78,244 +70,165 @@
       font-size: 1rem;
       border-radius: 6px;
       border: none;
+      margin-bottom: 1rem;
     }
 
     .entry-title {
-      margin: 0.5rem 0;
-      cursor: pointer;
+      margin: 0.4rem 0;
       padding: 0.4rem;
       border-radius: 6px;
-      background-color: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      background: rgba(255,255,255,0.1);
     }
 
     .entry-title:hover {
-      background-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255,255,255,0.3);
     }
 
     .entry-title.active {
       font-weight: bold;
-      background-color: rgba(255, 255, 255, 0.4);
-    }
-
-    .top-button {
-      display: block;
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      background-color: #ffffffcc;
-      color: #000;
-      text-align: center;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
+      background: rgba(255,255,255,0.45);
     }
 
     .random-btn {
-      display: inline-block;
       margin-top: 2rem;
       padding: 0.5rem 1rem;
-      background-color: #ffffffcc;
-      color: #000;
+      background: #ffffffcc;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
     }
+
     .mobile-toggle {
-  display: none;
-  background: #333;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  font-size: 1.2rem;
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 1001;
-}
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1000;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1.2rem;
+    }
 
-@media (max-width: 768px) {
-  .mobile-toggle {
-    display: block;
-  }
+    @media (max-width: 768px) {
+      .mobile-toggle {
+        display: block;
+      }
 
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: white;
-    height: 100%;
-    width: 80%;
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-    z-index: 1000;
-    border-right: 2px solid #ccc;
-    overflow-y: auto;
-  }
+      .sidebar {
+        position: fixed;
+        inset: 0 auto auto 0;
+        width: 80%;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        background: white;
+        z-index: 999;
+      }
 
-  .sidebar.open {
-    transform: translateY(0);
-  }
+      .sidebar.open {
+        transform: translateX(0);
+      }
 
-  .container {
-    flex-direction: column;
-  }
-}
- </style>
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<img src="images/fondojardin.jpg" alt="Fondo animado" id="bg-gif"
-     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: -1;">
+<img src="images/fondojardin.jpg" alt="Fondo jardín" id="bg-gif">
+
 <button class="mobile-toggle" onclick="toggleSidebar()">☰ Menú</button>
 
 <div class="container">
-  <div class="sidebar" id="sidebar">
-    <a class="top-button" href="/">⬅ Volver a la página principal</a>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Buscar por título o tag...">
-    </div>
-    <div id="entryList"></div>
-  </div>
 
-  <div class="content" id="contentArea">
+  <aside class="sidebar" id="sidebar">
+    <a class="top-button" href="/">⬅ Volver</a>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar...">
+    </div>
+
+    <div id="entryList"></div>
+  </aside>
+
+  <main class="content" id="contentArea">
     <h2>Bienvenida a mi jardín de palabras 🌼</h2>
-    <p>Haz clic en un título para leerlo aquí.</p>
-  </div>
+    <p>Haz clic en un texto para leerlo aquí.</p>
+  </main>
+
 </div>
 
 <script>
   const entries = [
-    { title: "Amor y mar", file: "amor-y-mar.html", tags: [] },
-    { title: "A las amigas", file: "alasamigas.html", tags: [] },
-    { title: "Anormal", file: "anormal.html", tags: [] },
-    { title: "Canto del Bodhi", file: "bodhi.html", tags: [] },
-    { title: "No hay mal que por bien no venga", file: "cuento.html", tags: [] },
-    { title: "De las palabras", file: "de-las-palabras.html", tags: [] },
-    { title: "Doler y creer", file: "doler-y-creer.html", tags: [] },
-    { title: "Enfermedad social", file: "enfermedad-social.html", tags: [] },
-    { title: "Insurrección", file: "insurreccion.html", tags: [] },
-    { title: "La mente y el alma", file: "la-mente-y-el-alma.html", tags: [] },
-    { title: "Psicopolítica", file: "psicopolitica.html", tags: [] },
-    { title: "Psiquedélico", file: "psiquedelico.html", tags: [] },
-    { title: "Redención", file: "redencion.html", tags: [] },
-    { title: "Respirar", file: "respirar.html", tags: [] },
-    { title: "Salud mental", file: "salud-mental.html", tags: [] },
-    { title: "Ser", file: "ser.html", tags: [] },
-    { title: "Transpersonal", file: "transpersonal.html", tags: [] },
-    { title: "La vegetariana", file: "vegetariana.html", tags: [], related: "anormal.html" },
-    { title: "Luna nueva", file: "lunanueva.html", tags: [], related: "anormal.html" }
+    { title: "Amor y mar", file: "amor-y-mar.html" },
+    { title: "A las amigas", file: "alasamigas.html" },
+    { title: "Anormal", file: "anormal.html" },
+    { title: "Canto del Bodhi", file: "bodhi.html" },
+    { title: "No hay mal que por bien no venga", file: "cuento.html" },
+    { title: "De las palabras", file: "de-las-palabras.html" },
+    { title: "Doler y creer", file: "doler-y-creer.html" },
+    { title: "Enfermedad social", file: "enfermedad-social.html" },
+    { title: "Insurrección", file: "insurreccion.html" },
+    { title: "La mente y el alma", file: "la-mente-y-el-alma.html" },
+    { title: "Psicopolítica", file: "psicopolitica.html" },
+    { title: "Psiquedélico", file: "psiquedelico.html" },
+    { title: "Redención", file: "redencion.html" },
+    { title: "Respirar", file: "respirar.html" },
+    { title: "Salud mental", file: "salud-mental.html" },
+    { title: "Ser", file: "ser.html" },
+    { title: "Transpersonal", file: "transpersonal.html" },
+    { title: "La vegetariana", file: "vegetariana.html" },
+    { title: "Luna nueva", file: "lunanueva.html" }
   ];
 
-  const listContainer = document.getElementById("entryList");
+  const entryList = document.getElementById("entryList");
   const contentArea = document.getElementById("contentArea");
   const searchInput = document.getElementById("searchInput");
 
   function renderList(filter = "") {
-    listContainer.innerHTML = "";
+    entryList.innerHTML = "";
     entries
-      .filter(entry => entry.title.toLowerCase().includes(filter.toLowerCase()))
+      .filter(e => e.title.toLowerCase().includes(filter.toLowerCase()))
       .forEach(entry => {
-        const el = document.createElement("div");
-        el.className = "entry-title";
-        el.textContent = entry.title;
-        el.onclick = () => loadContent(entry, el);
-        listContainer.appendChild(el);
+        const div = document.createElement("div");
+        div.className = "entry-title";
+        div.textContent = entry.title;
+        div.onclick = () => loadEntry(entry, div);
+        entryList.appendChild(div);
       });
   }
 
-  async function loadContent(entry, el, updateURL = true) {
-    const allTitles = document.querySelectorAll(".entry-title");
-    allTitles.forEach(t => t.classList.remove("active"));
+  async function loadEntry(entry, el) {
+    document.querySelectorAll(".entry-title")
+      .forEach(e => e.classList.remove("active"));
+
     if (el) el.classList.add("active");
 
     const res = await fetch(entry.file);
-    const text = await res.text();
-    const contentMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-    const cleaned = contentMatch ? contentMatch[1].trim() : text;
+    const html = await res.text();
 
-    let relatedBtn = "";
-    if (entry.related) {
-      const relatedEntry = entries.find(e => e.file === entry.related);
-      if (relatedEntry) {
-        relatedBtn = `<button class='random-btn' onclick='loadContentByFile("${relatedEntry.file}")'>🌱 Leer texto relacionado</button>`;
-      }
-    }
+    const bodyMatch = html.match(/<body[^>]*>([\\s\\S]*)<\\/body>/i);
+    const content = bodyMatch ? bodyMatch[1] : html;
 
-    contentArea.innerHTML = `<h2>${entry.title}</h2>${cleaned}${relatedBtn}<div id="comentarios"></div>`;
-
-    if (updateURL) {
-      const postParam = entry.file.replace(".html", "");
-      history.pushState({}, "", `?post=${postParam}`);
-    }
-
-    cargarComentarios(entry.file.replace(".html", ""));
+    contentArea.innerHTML = `<h2>${entry.title}</h2>${content}`;
   }
 
-  function loadContentByFile(file) {
-    const entry = entries.find(e => e.file === file);
-    const el = Array.from(document.querySelectorAll(".entry-title")).find(e => e.textContent === entry.title);
-    if (entry && el) {
-      loadContent(entry, el);
-    }
+  searchInput.addEventListener("input", e => {
+    renderList(e.target.value);
+  });
+
+  renderList();
+
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
   }
-
-  function cargarComentarios(nombre) {
-    const utterances = document.querySelector(".utterances");
-    if (utterances) utterances.remove();
-
-    const script = document.createElement("script");
-    script.setAttribute("src", "https://utteranc.es/client.js");
-    script.setAttribute("repo", "psiqsofia/psiqsofia.github.io");
-    script.setAttribute("issue-term", nombre);
-    script.setAttribute("label", "comentario");
-    script.setAttribute("theme", "github-light");
-    script.setAttribute("crossorigin", "anonymous");
-    script.setAttribute("async", "");
-    script.className = "utterances";
-
-    document.getElementById("comentarios").appendChild(script);
-  }
-
-  searchInput.addEventListener("input", e => renderList(e.target.value));
-
-  
-  };
-   function cargarTexto(nombreArchivo, titulo) {
-    fetch('blog/' + nombreArchivo)
-      .then(response => response.text())
-      .then(texto => {
-        document.getElementById('contenido-escrito').innerHTML = `
-          <button onclick="volver()" class="boton-volver" style="display: none;">⬅ Volver al jardín</button>
-          <h2>${titulo}</h2>
-          <div>${texto}</div>
-        `;
-        
-      });
-  }
-
-  function volver() {
-    document.querySelector('.sidebar').style.display = 'block';
-    document.getElementById('contenido-escrito').innerHTML = '';
-  }
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  sidebar.classList.toggle('open');
-}
-  // Renderizar lista apenas el script cargue
-renderList();
-
-// Cargar post desde URL si existe
-const params = new URLSearchParams(window.location.search);
-const post = params.get("post");
-if (post) {
-  const file = `${post}.html`;
-  const entry = entries.find(e => e.file === file);
-  const el = Array.from(document.querySelectorAll(".entry-title"))
-    .find(e => e.textContent === entry?.title);
-  if (entry) loadContent(entry, el, false);
-}
-
 </script>
 
 </body>
