@@ -164,8 +164,10 @@
   </main>
 
 </div>
-window.addEventListener('DOMContentLoaded', () => {
 <script>
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('blog script arrancando');
+
   const entries = [
     { title: "Amor y mar", file: "amor-y-mar.html" },
     { title: "A las amigas", file: "alasamigas.html" },
@@ -208,28 +210,37 @@ window.addEventListener('DOMContentLoaded', () => {
   async function loadEntry(entry, el) {
     document.querySelectorAll(".entry-title")
       .forEach(e => e.classList.remove("active"));
-
     if (el) el.classList.add("active");
 
-    const res = await fetch(entry.file);
-    const html = await res.text();
-
-   const bodyMatch = html.match(/<body[^>]>([\s\S])</body>/i);
-    const content = bodyMatch ? bodyMatch[1] : html;
-
-    contentArea.innerHTML = `<h2>${entry.title}</h2>${content}`;
+    try {
+      const res = await fetch(entry.file);
+      if (!res.ok) {
+        contentArea.innerHTML = `<h2>${entry.title}</h2><p>Error al cargar (${res.status})</p>`;
+        return;
+      }
+      const html = await res.text();
+      // CORRECCIÓN: usar [\s\S] correctamente
+      const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+      const content = bodyMatch ? bodyMatch[1] : html;
+      contentArea.innerHTML = `<h2>${entry.title}</h2>${content}`;
+    } catch (err) {
+      console.error('fetch error', err);
+      contentArea.innerHTML = `<h2>${entry.title}</h2><p>Error al cargar el contenido.</p>`;
+    }
   }
 
-  searchInput.addEventListener("input", e => {
-    renderList(e.target.value);
-  });
+  if (searchInput) {
+    searchInput.addEventListener("input", e => {
+      renderList(e.target.value);
+    });
+  }
 
   renderList();
 
-  function toggleSidebar() {
+  window.toggleSidebar = function() {
     document.getElementById("sidebar").classList.toggle("open");
-  }
-</script>
+  };
 });
+</script>
 </body>
 </html>
