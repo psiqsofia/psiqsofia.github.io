@@ -189,10 +189,13 @@ window.addEventListener('DOMContentLoaded', () => {
     { title: "Transpersonal", file: "blog/transpersonal.html" },
     { title: "La vegetariana", file: "blog/vegetariana.html" }
   ];
-
-  const entryList = document.getElementById("entryList");
+ const entryList = document.getElementById("entryList");
   const contentArea = document.getElementById("contentArea");
   const searchInput = document.getElementById("searchInput");
+
+  // helpers
+  const slugFromFile = file => file.replace(/\.html$/i, '');
+  const findBySlug = slug => entries.find(e => slugFromFile(e.file) === slug);
 
   function renderList(filter = "") {
     entryList.innerHTML = "";
@@ -202,24 +205,41 @@ window.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement("div");
         div.className = "entry-title";
         div.textContent = entry.title;
-        div.onclick = () => loadEntry(entry, div);
+        // guardamos slug como atributo para poder copiar enlace o detectar
+        const slug = slugFromFile(entry.file);
+        div.dataset.slug = slug;
+
+        div.onclick = () => {
+          loadEntry(entry, div);
+          // actualizamos hash para que la URL sea compartible
+          // usamos replaceState/pushState si prefieres no agregar al historial push: history.pushState(null, '', '#' + slug);
+          location.hash = slug;
+        };
+
         entryList.appendChild(div);
       });
   }
 
+  async function fetchWithFallback(path) {
+    let res = await fetch(path);
+    if (!res.ok) {
+      // intenta en subcarpeta blog/
+      res = await fetch('blog/' + path);
+    }
+    return res;
+  }
+
   async function loadEntry(entry, el) {
-    document.querySelectorAll(".entry-title")
-      .forEach(e => e.classList.remove("active"));
+    document.querySelectorAll(".entry-title").forEach(e => e.classList.remove("active"));
     if (el) el.classList.add("active");
 
     try {
-      const res = await fetch(entry.file);
+      let res = await fetchWithFallback(entry.file);
       if (!res.ok) {
         contentArea.innerHTML = `<h2>${entry.title}</h2><p>Error al cargar (${res.status})</p>`;
         return;
       }
       const html = await res.text();
-      // CORRECCIÓN: usar [\s\S] correctamente
       const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
       const content = bodyMatch ? bodyMatch[1] : html;
       contentArea.innerHTML = `<h2>${entry.title}</h2>${content}`;
@@ -229,6 +249,25 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // carga inicial: si hay hash, intenta mostrar la entrada correspondiente
+  function loadFromHash() {
+    const hash = location.hash ? location.hash.slice(1) : '';
+    if (!hash) return;
+    const e = findBySlug(hash);
+    if (e) {
+      // buscar el elemento visual para marcarlo activo
+      const el = entryList.querySelector(`[data-slug="${hash}"]`);
+      loadEntry(e, el || null);
+    } else {
+      console.warn('No se encontró entry para hash:', hash);
+    }
+  }
+
+  // manejar cambios de hash (atras/adelante o manual)
+  window.addEventListener('hashchange', () => {
+    loadFromHash();
+  });
+
   if (searchInput) {
     searchInput.addEventListener("input", e => {
       renderList(e.target.value);
@@ -236,7 +275,10 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   renderList();
+  // después de renderizar la lista, intentar cargar desde el hash si existe
+  loadFromHash();
 
+  // exponer toggleSidebar
   window.toggleSidebar = function() {
     document.getElementById("sidebar").classList.toggle("open");
   };
