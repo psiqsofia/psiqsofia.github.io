@@ -229,7 +229,7 @@
     allTitles.forEach(t => t.classList.remove("active"));
     if (el) el.classList.add("active");
 
-    const res = await fetch(`blog/${entry.file}`);
+    const res = await fetch(entry.file);
     const text = await res.text();
     const contentMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
     const cleaned = contentMatch ? contentMatch[1].trim() : text;
