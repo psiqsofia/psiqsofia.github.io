@@ -164,7 +164,7 @@
   </main>
 
 </div>
-
+window.addEventListener('DOMContentLoaded', () => {
 <script>
   const entries = [
     { title: "Amor y mar", file: "amor-y-mar.html" },
@@ -214,7 +214,7 @@
     const res = await fetch(entry.file);
     const html = await res.text();
 
-    const bodyMatch = html.match(/<body[^>]*>([\\s\\S]*)<\\/body>/i);
+   const bodyMatch = html.match(/<body[^>]>([\s\S])</body>/i);
     const content = bodyMatch ? bodyMatch[1] : html;
 
     contentArea.innerHTML = `<h2>${entry.title}</h2>${content}`;
@@ -230,6 +230,6 @@
     document.getElementById("sidebar").classList.toggle("open");
   }
 </script>
-
+});
 </body>
 </html>
