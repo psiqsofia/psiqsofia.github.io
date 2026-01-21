@@ -211,13 +211,16 @@ window.addEventListener('DOMContentLoaded', () => {
         div.dataset.slug = slug;
 
         div.onclick = () => {
-          loadEntry(entry, div);
-          // actualizamos hash para que la URL sea compartible
-          // usamos replaceState/pushState si prefieres no agregar al historial push: history.pushState(null, '', '#' + slug);
-          location.hash = slug;
-        };
+  loadEntry(entry, div);
+  location.hash = slug;
 
-        entryList.appendChild(div);
+  // 👉 si es móvil, cerrar el menú automáticamente
+  if (isMobile()) {
+    document.getElementById("sidebar").classList.remove("open");
+  }
+};
+div.onclick = () => {
+  entryList.appendChild(div);
       });
   }
 
@@ -258,6 +261,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (e) {
       // buscar el elemento visual para marcarlo activo
       const el = entryList.querySelector(`[data-slug="${hash}"]`);
+   function isMobile() {
+  return window.innerWidth <= 768;
+}  
       loadEntry(e, el || null);
     } else {
       console.warn('No se encontró entry para hash:', hash);
