@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jardín de Palabras</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
-
   <style>
     html, body {
       margin: 0;
@@ -16,10 +14,7 @@
       font-size: 1.25rem;
       overflow: hidden;
     }
-
-    body {
-      background: black;
-    }
+    body { background: black; }
 
     #bg-gif {
       position: fixed;
@@ -71,6 +66,7 @@
       border-radius: 6px;
       border: none;
       margin-bottom: 1rem;
+      box-sizing: border-box;
     }
 
     .entry-title {
@@ -80,26 +76,63 @@
       cursor: pointer;
       background: rgba(255,255,255,0.1);
     }
-
-    .entry-title:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
+    .entry-title:hover { background: rgba(255,255,255,0.3); }
     .entry-title.active {
       font-weight: bold;
       background: rgba(255,255,255,0.45);
     }
 
-    .random-btn {
-      margin-top: 2rem;
-      padding: 0.5rem 1rem;
+    /* ── Comentarios ── */
+    .comments-section {
+      margin-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      padding-top: 1.5rem;
+    }
+    .comments-section h3 {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      color: #ffffffcc;
+    }
+    .comment-form textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 80px;
+      box-sizing: border-box;
+    }
+    .comment-form textarea::placeholder { color: rgba(255,255,255,0.5); }
+    .comment-form button {
+      margin-top: 0.5rem;
+      padding: 0.5rem 1.2rem;
       background: #ffffffcc;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
+      font-family: inherit;
     }
+    .comment-form button:hover { background: white; }
+    .comment-list { margin-top: 1.2rem; }
+    .comment-item {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 0.7rem;
+    }
+    .comment-item .comment-meta {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.3rem;
+    }
+    .comment-item .comment-text { color: white; }
 
+    /* ── Mobile ── */
     .mobile-toggle {
       display: none;
       position: fixed;
@@ -111,13 +144,12 @@
       border: none;
       padding: 0.5rem 1rem;
       font-size: 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
     @media (max-width: 768px) {
-      .mobile-toggle {
-        display: block;
-      }
-
+      .mobile-toggle { display: block; }
       .sidebar {
         position: fixed;
         inset: 0 auto auto 0;
@@ -128,33 +160,23 @@
         background: white;
         z-index: 999;
       }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .container {
-        flex-direction: column;
-      }
+      .sidebar.open { transform: translateX(0); }
+      .container { flex-direction: column; }
+      .content { padding: 1rem 1.2rem; }
     }
   </style>
 </head>
-
 <body>
 
 <img src="images/fondojardin.jpg" alt="Fondo jardín" id="bg-gif">
-
-<button class="mobile-toggle" onclick="toggleSidebar()">☰ Menú</button>
+<button class="mobile-toggle" id="menuBtn">☰ Menú</button>
 
 <div class="container">
-
   <aside class="sidebar" id="sidebar">
     <a class="top-button" href="/">⬅ Volver</a>
-
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Buscar...">
     </div>
-
     <div id="entryList"></div>
   </aside>
 
@@ -162,133 +184,189 @@
     <h2>Bienvenida a mi jardín de palabras 🌼</h2>
     <p>Haz clic en un texto para leerlo aquí.</p>
   </main>
-
 </div>
+
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-  console.log('blog script arrancando');
 
   const entries = [
-    { title: "Amor y mar", file: "blog/amor-y-mar.html" },
-    { title: "A las amigas", file: "blog/alasamigas.html" },
-    { title: "Anormal", file: "blog/anormal.html" },
-    { title: "Canto del Bodhi", file: "blog/bodhi.html" },
-    { title: "Ceiba sagrada", file: "blog/ceiba-sagrada.html" },
-    { title: "No hay mal que por bien no venga", file: "blog/cuento.html" },
-    { title: "De las palabras", file: "blog/de-las-palabras.html" },
-    { title: "Doler y creer", file: "blog/doler-y-creer.html" },
-    { title: "Enfermedad social", file: "blog/enfermedad-social.html" },
-    { title: "Insurrección", file: "blog/insurreccion.html" },
-    { title: "La mente y el alma", file: "blog/la-mente-y-el-alma.html" },
-    { title: "Luna nueva", file: "blog/lunanueva.html" },
-    { title: "Psicopolítica", file: "blog/psicopolitica.html" },
-    { title: "Psiquedélico", file: "blog/psiquedelico.html" },
-    { title: "Redención", file: "blog/redencion.html" },
-    { title: "Respirar", file: "blog/respirar.html" },
-    { title: "Salud mental", file: "blog/salud-mental.html" },
-    { title: "Ser", file: "blog/ser.html" },
-    { title: "Transpersonal", file: "blog/transpersonal.html" },
-    { title: "La vegetariana", file: "blog/vegetariana.html" }
+    { title: "Amor y mar",                          file: "blog/amor-y-mar.html" },
+    { title: "A las amigas",                        file: "blog/alasamigas.html" },
+    { title: "Anormal",                             file: "blog/anormal.html" },
+    { title: "Canto del Bodhi",                     file: "blog/bodhi.html" },
+    { title: "Ceiba sagrada",                       file: "blog/ceiba-sagrada.html" },
+    { title: "No hay mal que por bien no venga",    file: "blog/cuento.html" },
+    { title: "De las palabras",                     file: "blog/de-las-palabras.html" },
+    { title: "Doler y creer",                       file: "blog/doler-y-creer.html" },
+    { title: "Enfermedad social",                   file: "blog/enfermedad-social.html" },
+    { title: "Insurrección",                        file: "blog/insurreccion.html" },
+    { title: "La mente y el alma",                  file: "blog/la-mente-y-el-alma.html" },
+    { title: "Luna nueva",                          file: "blog/lunanueva.html" },
+    { title: "Psicopolítica",                       file: "blog/psicopolitica.html" },
+    { title: "Psiquedélico",                        file: "blog/psiquedelico.html" },
+    { title: "Redención",                           file: "blog/redencion.html" },
+    { title: "Respirar",                            file: "blog/respirar.html" },
+    { title: "Salud mental",                        file: "blog/salud-mental.html" },
+    { title: "Ser",                                 file: "blog/ser.html" },
+    { title: "Transpersonal",                       file: "blog/transpersonal.html" },
+    { title: "La vegetariana",                      file: "blog/vegetariana.html" }
   ];
- const entryList = document.getElementById("entryList");
-  const contentArea = document.getElementById("contentArea");
-  const searchInput = document.getElementById("searchInput");
 
-  // helpers
-  const slugFromFile = file => file.replace(/\.html$/i, '');
-  const findBySlug = slug => entries.find(e => slugFromFile(e.file) === slug);
+  const entryList   = document.getElementById('entryList');
+  const contentArea = document.getElementById('contentArea');
+  const searchInput = document.getElementById('searchInput');
+  const sidebar     = document.getElementById('sidebar');
+  const menuBtn     = document.getElementById('menuBtn');
 
-  function renderList(filter = "") {
-    entryList.innerHTML = "";
+  // ── Helpers ──────────────────────────────────────────────
+  const isMobile     = () => window.innerWidth <= 768;
+  const slugFromFile = file => file.replace(/^blog\//, '').replace(/\.html$/i, '');
+  const findBySlug   = slug => entries.find(e => slugFromFile(e.file) === slug);
+
+  // ── Sidebar toggle ────────────────────────────────────────
+  menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+  // ── Lista de entradas ─────────────────────────────────────
+  function renderList(filter = '') {
+    entryList.innerHTML = '';
     entries
       .filter(e => e.title.toLowerCase().includes(filter.toLowerCase()))
       .forEach(entry => {
-        const div = document.createElement("div");
-        div.className = "entry-title";
+        const div = document.createElement('div');
+        div.className = 'entry-title';
         div.textContent = entry.title;
-        // guardamos slug como atributo para poder copiar enlace o detectar
-        const slug = slugFromFile(entry.file);
-        div.dataset.slug = slug;
+        div.dataset.slug = slugFromFile(entry.file);
 
-        div.onclick = () => {
-  loadEntry(entry, div);
-  location.hash = slug;
+        div.addEventListener('click', () => {
+          location.hash = div.dataset.slug;           // hashchange dispara loadFromHash
+          if (isMobile()) sidebar.classList.remove('open');
+        });
 
-  // 👉 si es móvil, cerrar el menú automáticamente
-  if (isMobile()) {
-    document.getElementById("sidebar").classList.remove("open");
-  }
-};
-div.onclick = () => {
-  entryList.appendChild(div);
+        entryList.appendChild(div);
       });
   }
 
+  // ── Fetch con fallback ────────────────────────────────────
   async function fetchWithFallback(path) {
     let res = await fetch(path);
-    if (!res.ok) {
-      // intenta en subcarpeta blog/
-      res = await fetch('blog/' + path);
-    }
+    if (!res.ok) res = await fetch('blog/' + path);
     return res;
   }
 
-  async function loadEntry(entry, el) {
-    document.querySelectorAll(".entry-title").forEach(e => e.classList.remove("active"));
-    if (el) el.classList.add("active");
+  // ── Cargar entrada ────────────────────────────────────────
+  async function loadEntry(entry) {
+    // Marcar activo
+    document.querySelectorAll('.entry-title').forEach(e => e.classList.remove('active'));
+    const slug = slugFromFile(entry.file);
+    const el = entryList.querySelector(`[data-slug="${slug}"]`);
+    if (el) el.classList.add('active');
+
+    // Mostrar indicador de carga
+    contentArea.innerHTML = `<p style="opacity:.5">Cargando…</p>`;
 
     try {
-      let res = await fetchWithFallback(entry.file);
+      const res = await fetchWithFallback(entry.file);
       if (!res.ok) {
         contentArea.innerHTML = `<h2>${entry.title}</h2><p>Error al cargar (${res.status})</p>`;
         return;
       }
       const html = await res.text();
-      const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+      const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
       const content = bodyMatch ? bodyMatch[1] : html;
       contentArea.innerHTML = `<h2>${entry.title}</h2>${content}`;
     } catch (err) {
       console.error('fetch error', err);
       contentArea.innerHTML = `<h2>${entry.title}</h2><p>Error al cargar el contenido.</p>`;
     }
+
+    // Añadir sección de comentarios
+    renderComments(slug);
   }
 
-  // carga inicial: si hay hash, intenta mostrar la entrada correspondiente
+  // ── Comentarios (localStorage, sin datos personales) ──────
+  function getComments(slug) {
+    try {
+      return JSON.parse(localStorage.getItem('comments_' + slug) || '[]');
+    } catch { return []; }
+  }
+
+  function saveComment(slug, text) {
+    const comments = getComments(slug);
+    comments.push({
+      text: text.trim(),
+      date: new Date().toLocaleDateString('es-CO', { year:'numeric', month:'long', day:'numeric' })
+    });
+    localStorage.setItem('comments_' + slug, JSON.stringify(comments));
+  }
+
+  function renderComments(slug) {
+    const section = document.createElement('div');
+    section.className = 'comments-section';
+
+    const comments = getComments(slug);
+
+    section.innerHTML = `
+      <h3>💬 Comentarios anónimos</h3>
+      <div class="comment-form">
+        <textarea id="commentInput" placeholder="Deja un comentario (anónimo, sin correo)…"></textarea><br>
+        <button id="commentBtn">Publicar</button>
+      </div>
+      <div class="comment-list" id="commentList"></div>
+    `;
+
+    contentArea.appendChild(section);
+
+    const list  = section.querySelector('#commentList');
+    const input = section.querySelector('#commentInput');
+    const btn   = section.querySelector('#commentBtn');
+
+    function renderList() {
+      const all = getComments(slug);
+      list.innerHTML = all.length === 0
+        ? '<p style="opacity:.5;font-size:.9rem">Sé la primera en comentar 🌱</p>'
+        : all.map(c => `
+            <div class="comment-item">
+              <div class="comment-meta">${c.date}</div>
+              <div class="comment-text">${escapeHtml(c.text)}</div>
+            </div>`).join('');
+    }
+
+    btn.addEventListener('click', () => {
+      const text = input.value.trim();
+      if (!text) return;
+      saveComment(slug, text);
+      input.value = '';
+      renderList();
+    });
+
+    renderList();
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/\n/g, '<br>');
+  }
+
+  // ── Carga por hash ────────────────────────────────────────
   function loadFromHash() {
     const hash = location.hash ? location.hash.slice(1) : '';
     if (!hash) return;
-    const e = findBySlug(hash);
-    if (e) {
-      // buscar el elemento visual para marcarlo activo
-      const el = entryList.querySelector(`[data-slug="${hash}"]`);
-   function isMobile() {
-  return window.innerWidth <= 768;
-}  
-      loadEntry(e, el || null);
-    } else {
-      console.warn('No se encontró entry para hash:', hash);
-    }
+    const entry = findBySlug(hash);
+    if (entry) loadEntry(entry);
+    else console.warn('No se encontró entry para hash:', hash);
   }
 
-  // manejar cambios de hash (atras/adelante o manual)
-  window.addEventListener('hashchange', () => {
-    loadFromHash();
-  });
+  window.addEventListener('hashchange', loadFromHash);
 
-  if (searchInput) {
-    searchInput.addEventListener("input", e => {
-      renderList(e.target.value);
-    });
-  }
+  searchInput.addEventListener('input', e => renderList(e.target.value));
 
+  // ── Init ──────────────────────────────────────────────────
   renderList();
-  // después de renderizar la lista, intentar cargar desde el hash si existe
   loadFromHash();
-
-  // exponer toggleSidebar
-  window.toggleSidebar = function() {
-    document.getElementById("sidebar").classList.toggle("open");
-  };
 });
 </script>
 </body>
