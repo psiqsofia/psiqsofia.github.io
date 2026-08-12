@@ -110,6 +110,14 @@
   text-align: center;
   margin: 40px 0;
 }
+    .pdf-cv {
+  width: 380px;
+  max-width: 90%;
+  height: 500px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
 
 .btn-cv-detalle a {
   display: inline-block;
@@ -147,7 +155,13 @@
       .img-titulo {
         width: 90%;
       }
+      .img-cv,
+.img-titulo,
+.pdf-cv {
+  width: 90%;
+}
     }
+    
   </style>
 </head>
 <body>
@@ -164,10 +178,9 @@
 </div>
 
 <div class="img-container">
-  <iframe src="assets/pscientifica.pdf" width="600" height="800" style="border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);"></iframe>
-  <img src="images/Diploma.jpg" alt="Título Profesional" class="img-titulo" />
+  <iframe src="assets/CV_2026_en.pdf" class="pdf-cv"></iframe>
+  <iframe src="assets/CV_es.pdf" class="pdf-cv"></iframe>
 </div>
-  
  </body>
 </html>
 
